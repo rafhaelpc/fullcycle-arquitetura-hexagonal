@@ -1,16 +1,8 @@
-import knex  from "knex";
 import ProductDB from "./adapters/db/ProductDB";
 import ProductService from "./application/product/ProductService";
+import { fileDB } from './database/knex';
 
-const db = knex({
-  client: 'sqlite3',
-  connection: {
-    filename: './src/database/sqlite.db'
-  },
-  useNullAsDefault: true    
-});
-
-const productdb = new ProductDB(db);
+const productdb = new ProductDB(fileDB);
 const productService = new ProductService(productdb);
 
 (async () => {

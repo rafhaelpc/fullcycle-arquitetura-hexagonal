@@ -11,12 +11,14 @@ export default class ProductDB implements ProductPersistenceInterface {
     this.db = db;
   }
 
-  async get(id : string) : Promise<ProductInterface> {
-    
-
+  async get(id : string) : Promise<ProductInterface> {   
     const queryResult = await this.db('products').first('id', 'name', 'price', 'status').where('id', id);
-    const product = Object.assign(new Product(), queryResult);
-  
+
+    if (!queryResult) {
+      return null;
+    }
+
+    const product = Object.assign(new Product(), queryResult);  
     return product;
   }
 
